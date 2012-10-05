@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% load url from future %}
+
+{% block main %}
+<h1>Feeds</h1>
+<ul>
+	{% for feed in object_list %}
+		<li><a href="{{ feed.get_absolute_url }}">{{ feed }}</a></li>
+	{% endfor %}
+</ul>
+{% endblock main %}

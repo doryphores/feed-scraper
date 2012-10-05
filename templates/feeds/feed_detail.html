@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% load url from future %}
+
+{% block meta %}
+<link rel="alternate" type="application/atom+xml" title="{{ object }}" href="{% url 'feed_feed' slug=object.slug %}">
+{% endblock meta %}
+
+{% block main %}
+<h1>{{ object }}</h1>
+
+<ul>
+{% for item in object.items.all %}
+<li><a href="{{ item.enclosure }}">{{ item }} ({{ item.length|filesizeformat }})</a></li>
+{% endfor %}
+</ul>
+{% endblock main %}
