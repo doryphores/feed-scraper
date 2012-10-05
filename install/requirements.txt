@@ -3,4 +3,5 @@ Django==1.4.1
 Fabric==1.4.3
 South==0.7.6
 pycrypto==2.6
+python-memcached==1.48
 ssh==1.7.14
