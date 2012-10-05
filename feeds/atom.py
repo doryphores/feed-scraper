@@ -26,4 +26,7 @@ class PodcastFeed(FeedView):
 	def item_enclosure_length(self, item):
 		return item.length
 
+	def item_pubdate(self, item):
+		return item.publish_date
+
 	item_enclosure_mime_type = "audio/mpeg"
