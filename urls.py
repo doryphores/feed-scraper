@@ -6,9 +6,8 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-	url(r'^', include('feeds.urls')),
-
 	url(r'^admin/', include(admin.site.urls)),
+	url(r'^', include('feeds.urls')),
 )
 
 # Serve static and media files in DEBUG mode
