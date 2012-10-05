@@ -20,6 +20,9 @@ class PodcastFeed(FeedView):
 	def items(self, obj):
 		return obj.items.all()
 
+	def item_link(self, item):
+		return item.get_absolute_url()
+
 	def item_enclosure_url(self, item):
 		return item.enclosure
 
