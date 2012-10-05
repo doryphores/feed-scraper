@@ -1,12 +1,10 @@
 from django.contrib.syndication.views import Feed as FeedView
-from django.utils.feedgenerator import Atom1Feed
 from django.shortcuts import get_object_or_404
 
 from feeds.models import Feed
 
 
 class PodcastFeed(FeedView):
-	feed_type = Atom1Feed
 
 	def get_object(self, request, slug):
 		return get_object_or_404(Feed, slug=slug)
