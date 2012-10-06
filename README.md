@@ -1,4 +1,4 @@
 feed-scraper
 ============
 
-Scrapes HTML to generate atom feeds
+Scrapes HTML to generate podcast feeds
