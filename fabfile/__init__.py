@@ -1,11 +1,10 @@
-import sys
 import os
 import datetime
 import random
 
 from fabric.api import *
 from fabric.context_managers import prefix
-from fabric.contrib import django, files
+from fabric.contrib import files
 from fabric.colors import *
 from fabric.utils import abort
 
@@ -15,6 +14,7 @@ def staging():
 	"""
 	Setup staging environment vars
 	"""
+	env.default_refspec = 'develop'
 	env.hosts = ['staging.apod']
 	env.project_dir = '/home/martin/pretty-apod'
 	env.python = 'python'
@@ -122,16 +122,17 @@ def update_env():
 	Updates virtual environment requirements
 	"""
 	print(green('Updating virtual environment requirements'))
-	_run_ve('pip install -q -r %s/install/requirements.txt' % env.current_release_dir)
+	_run_ve('pip install -q -r %s/requirements/prod.txt' % env.current_release_dir)
 
 
 def update_code():
 	"""
 	Updates code from repository
 	"""
+	refspec = select_tag()
 	print(green('Updating code from repository'))
 	with cd(env.repo_dir):
-		run('git pull')
+		run('git fetch --tags && git checkout %s' % refspec)
 
 
 def prepare_release():
@@ -212,6 +213,22 @@ def rollback():
 	Rollback to previous release
 	"""
 	pass
+
+
+def select_tag():
+	# Push and fetch tags
+	local('git fetch --tags && git push --tags')
+
+	# Get last 5 tags and prompt for which to use
+	tags = local('git tag | sort -V | tail -5', capture=True)
+	print(yellow('Available tags: %s' % ', '.join(tags.split())))
+	latest = tags.split().pop()
+	refspec = prompt(blue('Choose tag to build from: '), default=latest)
+
+	# Check tag is valid
+	local('git tag | grep "%s"' % refspec)
+
+	return refspec
 
 
 def _run_ve(command):
