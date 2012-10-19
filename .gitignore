@@ -6,3 +6,4 @@ active.py
 *.sqlite
 media
 static
+*.sublime-*
